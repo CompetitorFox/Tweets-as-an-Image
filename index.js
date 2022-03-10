@@ -9,7 +9,7 @@ let browser;
 
 
 (async () => {
-    browser = await puppeteer.launch({ args: ['--no-sandbox'] })  
+    browser = await puppeteer.launch({ args: ['--no-sandbox'] })
 })();
 
 //error canvas
@@ -44,7 +44,7 @@ app.get('/', function (req, res) {
                 'bearer': process.env.TWITTER_OAUTH_TOKEN
             }
             }, function (err, resp, body) {
-                if (resp.statusCode === 200) {                    
+                if (resp.statusCode === 200) {
                     let tweets = JSON.parse(resp.body)
                     if (tweets.length !== 0) {
                         // set params from first tweet and get last tweet ID
@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
                         request(url + '&max_id=' + max_id, {
                             'auth': {
                                 'bearer': process.env.TWITTER_OAUTH_TOKEN
-                                }   
+                                }
                             }, function(err, resp1, body){
                                 if(resp1.statusCode === 200){
                                     let tweets1 = JSON.parse(resp1.body)
@@ -76,7 +76,7 @@ app.get('/', function (req, res) {
                                         var ctx = canvas.getContext('2d')
                                         ctx.font = '15px Verdana'
 
-                                        
+
                                         var gradient1 = ctx.createLinearGradient(0, 0, canvas.width, 0)
                                         gradient1.addColorStop(0, "blue")
                                         gradient1.addColorStop(0.5, "magenta");
@@ -134,7 +134,7 @@ app.get('/', function (req, res) {
                                     });
                                     return res.end(canvas1.toBuffer())
                                 }
-                            }) 
+                            })
                     } else {
                         var img = canvas1.toBuffer()
                         res.writeHead(200, {
@@ -149,7 +149,7 @@ app.get('/', function (req, res) {
                         'Content-Type': 'image/png',
                         'Content-Length': img.length
                     });
-                    return res.end(canvas1.toBuffer())            
+                    return res.end(canvas1.toBuffer())
                 }
         })
     } else{
@@ -209,7 +209,7 @@ app.get('/tweet', async function (req, res) {
                     if (tweets.length !== 0) {
                         // set params from first tweet, and get last tweet ID
                         twitterHandle = tweets[0].user.screen_name
-                        
+
                         id ? max_id = id : max_id = tweets[0].id_str
                         let oembedUrl = oembedBase + twitterHandle + '/status/' + max_id + '&theme=' + theme + '&align=center&lang=' + lang + '&maxwidth=' + maxwidth
                         request(oembedUrl,
@@ -230,7 +230,7 @@ app.get('/tweet', async function (req, res) {
                                     await page.setContent(data.html, { waitUntil: 'networkidle0' })
                                     let ele = await page.$('.twitter-tweet');
                                     const boundingBox = await ele.boundingBox();
-                                
+
                                     var img = await ele.screenshot({ type: 'png',
                                         clip: {
                                             x: boundingBox.x,
@@ -254,9 +254,9 @@ app.get('/tweet', async function (req, res) {
                                     });
                                     return res.end(canvas1.toBuffer())
                                   }
-                                   
-                                })  
-                            
+
+                                })
+
                     } else {
                         var img = canvas1.toBuffer()
                         res.writeHead(200, {
@@ -292,7 +292,7 @@ app.get('/tweet', async function (req, res) {
         });
         return res.end(canvas1.toBuffer())
     }
-    
+
 });
 
 
